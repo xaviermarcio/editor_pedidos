@@ -1,3 +1,6 @@
+# =======================
+# Python / Backend
+# =======================
 venv/
 __pycache__/
 *.pyc
@@ -6,3 +9,43 @@ __pycache__/
 *.db
 *.sqlite3
 *.log
+
+# Arquivos temporários do FastAPI/Uvicorn
+*.pid
+*.sock
+
+# =======================
+# Node / Frontend (se usar npm futuramente)
+# =======================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# =======================
+# PWA / Build Cache
+# =======================
+.cache/
+dist/
+build/
+*.local
+
+# =======================
+# Sistema Operacional
+# =======================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# =======================
+# VS Code
+# =======================
+.vscode/
+*.code-workspace
+
+# =======================
+# Ambiente / Senhas
+# =======================
+.env
+*.secret
+*.key
