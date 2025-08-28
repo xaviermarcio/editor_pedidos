@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Editor de Pedidos</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .linha-branca { background-color: #ffffff; }
+    .linha-cinza { background-color: #f2f2f2; }
+    .item-label { white-space: pre-wrap; font-family: monospace; }
+  </style>
+
+  <!-- Manifest PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#004080">
+  <link rel="icon" href="icons/icon-192.png" sizes="192x192">
+</head>
+<body class="bg-light">
+
+<div class="container py-4">
+  <h1 class="text-center text-primary mb-4">🛒 Editor de Pedidos</h1>
+
+  <!-- Upload -->
+  <div class="card shadow-sm p-3 mb-4">
+    <h5 class="card-title">Carregar PDF</h5>
+    <div class="input-group">
+      <input type="file" id="pdfFile" class="form-control" accept="application/pdf">
+      <button class="btn btn-primary" onclick="uploadPDF()">Carregar</button>
+    </div>
+  </div>
+
+  <!-- Itens -->
+  <div class="card shadow-sm p-3 mb-4">
+    <h5 class="card-title">Itens encontrados</h5>
+    <div id="itens"></div>
+  </div>
+
+  <!-- Botão gerar PDF -->
+  <div class="d-grid gap-2">
+    <button class="btn btn-success btn-lg" onclick="gerarPedido()">💾 Salvar PDF Final</button>
+  </div>
+</div>
+
+<script>
+  // 🔹 Agora usa URL relativa → funciona local e no Render sem mudar nada
+  async function uploadPDF() {
+    const fileInput = document.getElementById("pdfFile");
+    if (!fileInput.files.length) {
+      alert("Selecione um arquivo PDF.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", fileInput.files[0]);
+
+    const resp = await fetch("/upload_pdf", {
+      method: "POST",
+      body: formData
+    });
+
+    const data = await resp.json();
+    const itensDiv = document.getElementById("itens");
+    itensDiv.innerHTML = "";
+
+    data.produtos.forEach((p, idx) => {
+      const rowClass = idx % 2 === 0 ? "linha-branca p-2" : "linha-cinza p-2";
+      const itemFormatado = p.item.replaceAll("|", "  |  ");
+
+      const div = document.createElement("div");
+      div.className = rowClass + " form-check";
+      div.innerHTML = `
+        <input class="form-check-input me-2" type="checkbox" id="item_${idx}" value="${p.item}">
+        <label class="form-check-label item-label w-100" for="item_${idx}">${itemFormatado}</label>
+      `;
+      itensDiv.appendChild(div);
+    });
+  }
+
+  async function gerarPedido() {
+    const checkboxes = document.querySelectorAll("input[type=checkbox]:checked");
+    if (!checkboxes.length) {
+      alert("Selecione ao menos 1 item.");
+      return;
+    }
+
+    const itens = Array.from(checkboxes).map(c => c.value).join("|||");
+    const formData = new FormData();
+    formData.append("itens", itens);
+
+    const resp = await fetch("/gerar_pedido", {
+      method: "POST",
+      body: formData
+    });
+
+    if (!resp.ok) {
+      alert("Erro ao gerar pedido!");
+      return;
+    }
+
+    const blob = await resp.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "pedido_final.pdf";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    window.URL.revokeObjectURL(url);
+  }
+
+  // Registrar service worker (PWA)
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("sw.js")
+      .then(() => console.log("✅ Service Worker registrado"))
+      .catch(err => console.error("❌ Erro SW:", err));
+  }
+</script>
+
+</body>
+</html>
