@@ -1,0 +1,126 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #d1cccc;
+}
+
+.container {
+  max-width: 1200px;
+}
+
+/* Alternância de linhas */
+.linha-branca { background-color: #ffffff; }
+.linha-cinza { background-color: #dcdfe2; }
+
+/* Destaque quando selecionado */
+.destacado {
+  border: 2px solid #35835f;
+  border-radius: 6px;
+  background-color: #f0fff4;
+}
+
+/* Checkbox verde quando marcado */
+.form-check-input:checked {
+  background-color: #056337;
+  border-color: #198754;
+  box-shadow: 0 0 4px rgba(20, 158, 94, 0.6);
+}
+
+/* Efeito hover em checkbox */
+.form-check:hover {
+  background-color: #7fca9e;
+  transition: background 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+/* ====================================
+   FORMULÁRIOS DE LOGIN / REGISTER / RESET
+==================================== */
+
+/* Centralização dos cards */
+body.auth-page {
+  background: #d1cccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.card {
+  border: none;
+  border-radius: 12px;
+}
+
+/* Títulos */
+.card h3 {
+  color: #0d6efd; /* Azul padrão Bootstrap */
+  font-weight: 600;
+}
+
+/* Botão principal (login) */
+.btn-primary {
+  background-color: #0d6efd;
+  border: none;
+}
+.btn-primary:hover {
+  background-color: #0b5ed7;
+}
+
+/* Botão Google */
+.btn-outline-dark {
+  border: 1px solid #6c757d;
+  color: #212529;
+}
+.btn-outline-dark:hover {
+  background-color: #f1f1f1;
+}
+
+/* Botão Registrar */
+.btn-success {
+  background-color: #198754;
+  border: none;
+}
+.btn-success:hover {
+  background-color: #157347;
+}
+
+/* Botão Reset Senha */
+.btn-warning {
+  background-color: #ffc107;
+  border: none;
+  color: #212529;
+}
+.btn-warning:hover {
+  background-color: #e0a800;
+  color: #fff;
+}
+
+/* Links */
+a {
+  color: #0d6efd;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+/* Mensagens de erro e sucesso */
+.text-danger {
+  color: #dc3545 !important;
+}
+.text-success {
+  color: #198754 !important;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .card {
+    margin-bottom: 1rem;
+  }
+  .btn-lg {
+    font-size: 1rem;
+    padding: 0.6rem;
+  }
+  .item-label {
+    font-size: 0.9rem;
+  }
+}

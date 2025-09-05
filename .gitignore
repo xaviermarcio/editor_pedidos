@@ -1,51 +1,60 @@
-# =======================
-# Python / Backend
-# =======================
-venv/
+# =========================
+# Logs
+# =========================
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+firebase-debug.log*
+firebase-debug.*.log*
+
+# =========================
+# Firebase cache
+# =========================
+.firebase/
+
+# Firebase config (NÃO SUBIR)
+frontend/js/firebase-config.js
+
+# Caso use dotenv para segredos
+.env
+
+# =========================
+# Python
+# =========================
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
-*.db
-*.sqlite3
-*.log
+backend/venv/
 
-# Arquivos temporários do FastAPI/Uvicorn
-*.pid
-*.sock
-
-# =======================
-# Node / Frontend (se usar npm futuramente)
-# =======================
+# =========================
+# Node / JS
+# =========================
 node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
 
-# =======================
-# PWA / Build Cache
-# =======================
-.cache/
-dist/
-build/
-*.local
+# =========================
+# Build / Coverage
+# =========================
+coverage
+.nyc_output
+lib-cov
+.grunt
+bower_components
+.lock-wscript
+build/Release
+*.tgz
 
-# =======================
-# Sistema Operacional
-# =======================
-.DS_Store
-Thumbs.db
-desktop.ini
+# =========================
+# Outras configs locais
+# =========================
+.npm
+.eslintcache
+.node_repl_history
+.yarn-integrity
 
-# =======================
-# VS Code
-# =======================
-.vscode/
-*.code-workspace
-
-# =======================
-# Ambiente / Senhas
-# =======================
-.env
-*.secret
-*.key
+# =========================
+# dataconnect generated files
+# =========================
+.dataconnect

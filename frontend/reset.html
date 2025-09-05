@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Redefinir Senha</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#0d6efd">
+
+</head>
+<body class="bg-light d-flex align-items-center justify-content-center min-vh-100">
+
+<div class="card shadow p-4 w-100" style="max-width: 400px;">
+  <h3 class="text-center mb-4">Redefinir Senha</h3>
+  <form id="resetForm">
+    <div class="mb-3">
+      <label for="resetEmail" class="form-label">E-mail</label>
+      <input type="email" id="resetEmail" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-warning w-100">Enviar link</button>
+  </form>
+  <div class="text-center mt-3">
+    <a href="login.html">Voltar ao login</a>
+  </div>
+  <p id="resetMessage" class="text-center mt-2 text-danger"></p>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+<script src="./js/firebase-config.js"></script>
+<script src="./js/auth.js"></script>
+<script>
+  document.getElementById("resetForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const email = document.getElementById("resetEmail").value;
+    try {
+      await resetPassword(email);
+      document.getElementById("resetMessage").classList.remove("text-danger");
+      document.getElementById("resetMessage").classList.add("text-success");
+      document.getElementById("resetMessage").innerText = "E-mail de redefinição enviado!";
+    } catch (error) {
+      document.getElementById("resetMessage").innerText = error.message;
+    }
+  });
+</script>
+</body>
+</html>
