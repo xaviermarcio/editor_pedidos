@@ -6,7 +6,7 @@ firebase.auth().onAuthStateChanged(user => {
 });
 
 // 🔗 URL do backend
-const backendURL = ""; // troque pelo Railway/Render depois
+const backendURL = "http://127.0.0.1:8000"; // troque pelo Railway/Render depois
 
 // Upload PDF
 async function uploadPDF() {
