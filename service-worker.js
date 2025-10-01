@@ -1,4 +1,4 @@
-const CACHE_NAME = "editor-pedidos-v2";
+const CACHE_NAME = "editor-pedidos-v3";
 const urlsToCache = [
   "/",
   "/index.html",
@@ -14,7 +14,7 @@ const urlsToCache = [
   "/icons/icon-512.png"
 ];
 
-// Instalação do SW → adiciona ao cache
+// Instalação → cache inicial + skipWaiting()
 self.addEventListener("install", event => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => {
@@ -22,9 +22,10 @@ self.addEventListener("install", event => {
       return cache.addAll(urlsToCache);
     })
   );
+  self.skipWaiting(); // força ativação imediata
 });
 
-// Ativação do SW → limpa caches antigos
+// Ativação → limpa caches antigos + assume controle
 self.addEventListener("activate", event => {
   event.waitUntil(
     caches.keys().then(cacheNames =>
@@ -38,16 +39,14 @@ self.addEventListener("activate", event => {
       )
     )
   );
+  self.clients.claim(); // garante que a nova versão assuma
 });
 
-// Intercepta requisições
+// Estratégia: Stale-While-Revalidate
 self.addEventListener("fetch", event => {
   event.respondWith(
     caches.match(event.request).then(response => {
-      if (response) {
-        return response;
-      }
-      return fetch(event.request)
+      const fetchPromise = fetch(event.request)
         .then(networkResponse => {
           return caches.open(CACHE_NAME).then(cache => {
             cache.put(event.request, networkResponse.clone());
@@ -55,10 +54,12 @@ self.addEventListener("fetch", event => {
           });
         })
         .catch(() => {
+          // fallback offline só para páginas HTML
           if (event.request.destination === "document") {
             return caches.match("/index.html");
           }
         });
+      return response || fetchPromise;
     })
   );
 });
