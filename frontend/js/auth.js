@@ -24,6 +24,8 @@ function traduzirErroFirebase(code) {
 async function login(email, senha) {
   try {
     const userCredential = await auth.signInWithEmailAndPassword(email, senha);
+    // Redireciona para o app
+    window.location.href = "app.html";
     return userCredential.user;
   } catch (error) {
     throw new Error(traduzirErroFirebase(error.code));
@@ -39,7 +41,8 @@ async function loginWithGoogle() {
     const result = await auth.signInWithPopup(provider);
     if (result.user) {
       console.log("Usuário Google logado:", result.user.email);
-      window.location.href = "index.html";
+      // Redireciona para o app
+      window.location.href = "app.html";
     }
   } catch (error) {
     alert(traduzirErroFirebase(error.code));
@@ -76,7 +79,45 @@ async function resetPassword(email) {
 async function logout() {
   try {
     await auth.signOut();
-    window.location.href = "login.html";
+    // Volta para a tela de login (index.html)
+    window.location.href = "index.html";
+  } catch (error) {
+    alert("Erro ao sair: " + error.message);
+  }
+}
+
+
+// ================================
+// REGISTRAR NOVO USUÁRIO
+// ================================
+async function register(email, senha) {
+  try {
+    const userCredential = await auth.createUserWithEmailAndPassword(email, senha);
+    return userCredential.user;
+  } catch (error) {
+    throw new Error(traduzirErroFirebase(error.code));
+  }
+}
+
+// ================================
+// RESETAR SENHA
+// ================================
+async function resetPassword(email) {
+  try {
+    await auth.sendPasswordResetEmail(email);
+    return true;
+  } catch (error) {
+    throw new Error(traduzirErroFirebase(error.code));
+  }
+}
+
+// ================================
+// LOGOUT
+// ================================
+async function logout() {
+  try {
+    await auth.signOut();
+    window.location.href = "index.html";
   } catch (error) {
     alert("Erro ao sair: " + error.message);
   }

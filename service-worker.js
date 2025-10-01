@@ -1,7 +1,7 @@
 const CACHE_NAME = "editor-pedidos-v1";
 const urlsToCache = [
+  "/frontend/app.html",
   "/frontend/index.html",
-  "/frontend/login.html",
   "/frontend/register.html",
   "/frontend/reset.html",
   "/frontend/css/styles.css",         // se existir

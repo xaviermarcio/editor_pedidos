@@ -1,9 +1,9 @@
-// Proteção: só acessa se estiver logado
 firebase.auth().onAuthStateChanged(user => {
   if (!user) {
-    window.location.href = "login.html";
+    window.location.href = "/frontend";
   }
 });
+
 
 // 🔗 URL do backend
 const backendURL = "http://127.0.0.1:8000"; // troque pelo Railway/Render depois
