@@ -1,18 +1,18 @@
-const CACHE_NAME = "editor-pedidos-v1";
+const CACHE_NAME = "editor-pedidos-v2";
 const urlsToCache = [
-  "/frontend/app.html",
-  "/frontend/index.html",
-  "/frontend/register.html",
-  "/frontend/reset.html",
-  "/frontend/css/styles.css",         // se existir
-  "/frontend/js/app.js",              // se existir
-  "/frontend/js/auth.js",             // se existir
-  "/frontend/js/firebase-config.js",  // se existir
+  "/",
+  "/index.html",
+  "/app.html",
+  "/register.html",
+  "/reset.html",
+  "/css/styles.css",
+  "/js/app.js",
+  "/js/auth.js",
+  "/js/firebase-config.js",
   "/manifest.json",
   "/icons/icon-192.png",
   "/icons/icon-512.png"
 ];
-
 
 // Instalação do SW → adiciona ao cache
 self.addEventListener("install", event => {
@@ -44,11 +44,9 @@ self.addEventListener("activate", event => {
 self.addEventListener("fetch", event => {
   event.respondWith(
     caches.match(event.request).then(response => {
-      // Se já tiver no cache → retorna
       if (response) {
         return response;
       }
-      // Senão → busca na rede e adiciona ao cache dinâmico
       return fetch(event.request)
         .then(networkResponse => {
           return caches.open(CACHE_NAME).then(cache => {
@@ -57,9 +55,8 @@ self.addEventListener("fetch", event => {
           });
         })
         .catch(() => {
-          // Se falhar (ex.: offline), retorna um fallback
           if (event.request.destination === "document") {
-            return caches.match("/frontend/index.html");
+            return caches.match("/index.html");
           }
         });
     })

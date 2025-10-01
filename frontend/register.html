@@ -1,87 +1,62 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Registrar</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registrar</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
 
-  <link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#0d6efd">
-
-</head>
-<body class="bg-light d-flex align-items-center justify-content-center min-vh-100">
-
-<div class="card shadow p-4 w-100" style="max-width: 400px;">
-  <h3 class="text-center mb-4">Criar Conta</h3>
-  <form id="registerForm">
-    <div class="mb-3">
-      <label for="regEmail" class="form-label">E-mail</label>
-      <input type="email" id="regEmail" class="form-control" required>
-    </div>
-    <div class="mb-3">
-      <label for="regSenha" class="form-label">Senha</label>
-      <input type="password" id="regSenha" class="form-control" required>
-      <div id="checklist" class="mt-2" style="display:none;">
-        <small class="form-text text-muted">A senha deve conter:</small>
-        <ul class="small mb-0">
-          <li id="minChar">✔ Pelo menos 6 caracteres</li>
-          <li id="upper">✔ Uma letra maiúscula</li>
-          <li id="number">✔ Um número</li>
-        </ul>
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#0d6efd" />
+  </head>
+  <body
+    class="bg-light d-flex align-items-center justify-content-center min-vh-100"
+  >
+    <div class="card shadow p-4 w-100" style="max-width: 400px">
+      <h3 class="text-center mb-4">Criar Conta</h3>
+      <form id="registerForm">
+        <div class="mb-3">
+          <label for="regEmail" class="form-label">E-mail</label>
+          <input type="email" id="regEmail" class="form-control" required />
+        </div>
+        <div class="mb-3">
+          <label for="regSenha" class="form-label">Senha</label>
+          <input type="password" id="regSenha" class="form-control" required />
+          <div id="checklist" class="mt-2" style="display: none">
+            <small class="form-text text-muted">A senha deve conter:</small>
+            <ul class="small mb-0">
+              <li id="minChar">✔ Pelo menos 6 caracteres</li>
+              <li id="upper">✔ Uma letra maiúscula</li>
+              <li id="number">✔ Um número</li>
+            </ul>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="regSenhaConfirm" class="form-label"
+            >Confirmar Senha</label
+          >
+          <input
+            type="password"
+            id="regSenhaConfirm"
+            class="form-control"
+            required
+          />
+        </div>
+        <button type="submit" class="btn btn-success w-100">Registrar</button>
+      </form>
+      <div class="text-center mt-3">
+        <a href="login.html">Já tenho conta</a>
       </div>
+      <p id="registerMessage" class="text-center mt-2 text-danger"></p>
     </div>
-    <div class="mb-3">
-      <label for="regSenhaConfirm" class="form-label">Confirmar Senha</label>
-      <input type="password" id="regSenhaConfirm" class="form-control" required>
-    </div>
-    <button type="submit" class="btn btn-success w-100">Registrar</button>
-  </form>
-  <div class="text-center mt-3">
-    <a href="login.html">Já tenho conta</a>
-  </div>
-  <p id="registerMessage" class="text-center mt-2 text-danger"></p>
-</div>
 
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-<script src="js/firebase-config.js"></script>
-<script src="js/auth.js"></script>
-
-<script>
-  const senhaInput = document.getElementById("regSenha");
-  const checklist = document.getElementById("checklist");
-
-  senhaInput.addEventListener("focus", () => checklist.style.display = "block");
-  senhaInput.addEventListener("blur", () => {
-    if (senhaInput.value === "") checklist.style.display = "none";
-  });
-
-  senhaInput.addEventListener("input", () => {
-    const senha = senhaInput.value;
-    document.getElementById("minChar").style.color = senha.length >= 6 ? "green" : "red";
-    document.getElementById("upper").style.color = /[A-Z]/.test(senha) ? "green" : "red";
-    document.getElementById("number").style.color = /\d/.test(senha) ? "green" : "red";
-  });
-
-  document.getElementById("registerForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const email = document.getElementById("regEmail").value;
-    const senha = document.getElementById("regSenha").value;
-    const confirm = document.getElementById("regSenhaConfirm").value;
-
-    if (senha !== confirm) {
-      document.getElementById("registerMessage").innerText = "As senhas não coincidem.";
-      return;
-    }
-
-    try {
-      await register(email, senha);
-      window.location.href = "index.html";
-    } catch (error) {
-      document.getElementById("registerMessage").innerText = error.message;
-    }
-  });
-</script>
-</body>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/register.js"></script>
+    <script src="js/auth.js"></script>
+  </body>
 </html>
