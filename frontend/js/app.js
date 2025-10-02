@@ -1,12 +1,11 @@
-firebase.auth().onAuthStateChanged(user => {
+firebase.auth().onAuthStateChanged((user) => {
   if (!user) {
     window.location.href = "/frontend";
   }
 });
 
-
 // 🔗 URL do backend
-const backendURL = "http://127.0.0.1:8000"; // troque pelo Railway/Render depois
+const backendURL = "http://192.168.0.208:8000"; // troque pelo Railway/Render depois
 
 // Upload PDF
 async function uploadPDF() {
@@ -21,7 +20,7 @@ async function uploadPDF() {
 
   const resp = await fetch(`${backendURL}/upload_pdf`, {
     method: "POST",
-    body: formData
+    body: formData,
   });
 
   const data = await resp.json();
@@ -35,15 +34,19 @@ async function uploadPDF() {
     const div = document.createElement("div");
     div.className = rowClass + " form-check p-2";
 
-    const precisaQtd = (p.empresa === "imperador" || p.empresa === "megafox");
+    const precisaQtd = p.empresa === "imperador" || p.empresa === "megafox";
 
     div.innerHTML = `
       <div class="d-flex flex-wrap align-items-start justify-content-between w-100">
         <div class="d-flex align-items-start flex-grow-1">
-          <input class="form-check-input me-2" type="checkbox" id="item_${idx}" value="${p.item}">
+          <input class="form-check-input me-2" type="checkbox" id="item_${idx}" value="${
+      p.item
+    }">
           <label class="form-check-label item-label" for="item_${idx}">${itemFormatado}</label>
         </div>
-        ${precisaQtd ? `
+        ${
+          precisaQtd
+            ? `
           <div class="d-flex align-items-center w-100 mt-2">
             <input type="number" 
                    class="form-control me-2" 
@@ -52,7 +55,9 @@ async function uploadPDF() {
                    id="qtd_${idx}">
             <span class="fw-bold">QTD</span>
           </div>
-        ` : ""}
+        `
+            : ""
+        }
       </div>
     `;
 
@@ -60,13 +65,13 @@ async function uploadPDF() {
   });
 
   // Destacar linha quando selecionada
-  document.querySelectorAll('.form-check-input').forEach(input => {
-    input.addEventListener('change', function () {
-      const parent = this.closest('.form-check');
+  document.querySelectorAll(".form-check-input").forEach((input) => {
+    input.addEventListener("change", function () {
+      const parent = this.closest(".form-check");
       if (this.checked) {
-        parent.classList.add('destacado');
+        parent.classList.add("destacado");
       } else {
-        parent.classList.remove('destacado');
+        parent.classList.remove("destacado");
       }
     });
   });
@@ -80,19 +85,21 @@ async function gerarPedido() {
     return;
   }
 
-  const itens = Array.from(checkboxes).map(c => {
-    const idx = c.id.split("_")[1];
-    const qtdInput = document.getElementById(`qtd_${idx}`);
-    const qtd = qtdInput ? qtdInput.value : 1;
-    return `${c.value}||QTD=${qtd}`;
-  }).join("|||");
+  const itens = Array.from(checkboxes)
+    .map((c) => {
+      const idx = c.id.split("_")[1];
+      const qtdInput = document.getElementById(`qtd_${idx}`);
+      const qtd = qtdInput ? qtdInput.value : 1;
+      return `${c.value}||QTD=${qtd}`;
+    })
+    .join("|||");
 
   const formData = new FormData();
   formData.append("itens", itens);
 
   const resp = await fetch(`${backendURL}/gerar_pedido`, {
     method: "POST",
-    body: formData
+    body: formData,
   });
 
   if (!resp.ok) {

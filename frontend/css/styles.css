@@ -1,15 +1,33 @@
+/* ================================
+   ESTILOS GLOBAIS
+================================ */
 body {
-  font-family: Arial, sans-serif;
+  background: #f5f6fa; /* Cinza claro elegante */
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Telas de autenticação (login/register/reset) */
+body.auth-page {
   background: #d1cccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100dvh; /* altura dinâmica real no mobile */
 }
 
 .container {
   max-width: 1200px;
 }
 
-/* Alternância de linhas */
-.linha-branca { background-color: #ffffff; }
-.linha-cinza { background-color: #dcdfe2; }
+/* Alternância de linhas (listas/tabelas) */
+.linha-branca {
+  background-color: #ffffff;
+}
+.linha-cinza {
+  background-color: #dcdfe2;
+}
 
 /* Destaque quando selecionado */
 .destacado {
@@ -32,11 +50,10 @@ body {
   cursor: pointer;
 }
 
-/* ====================================
-   FORMULÁRIOS DE LOGIN / REGISTER / RESET
-==================================== */
-
-/* Centralização dos cards */
+/* ================================
+   PÁGINAS DE AUTENTICAÇÃO
+   (Login / Register / Reset)
+================================ */
 body.auth-page {
   background: #d1cccc;
   display: flex;
@@ -48,12 +65,21 @@ body.auth-page {
 .card {
   border: none;
   border-radius: 12px;
+  background: #fff;
+  padding: 2rem;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
 }
 
 /* Títulos */
 .card h3 {
   color: #0d6efd; /* Azul padrão Bootstrap */
   font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+/* Subtítulos (texto auxiliar) */
+.card p.small {
+  color: #6c757d;
 }
 
 /* Botão principal (login) */
@@ -111,7 +137,69 @@ a:hover {
   color: #198754 !important;
 }
 
-/* Responsividade */
+/* ================================
+   APP (Dashboard / Páginas internas)
+================================ */
+
+/* Página interna */
+body.app-page {
+  background: #f5f6fa;
+  min-height: 100vh;
+  display: block; /* diferente do auth-page */
+}
+
+/* Navbar */
+.navbar {
+  padding: 0.8rem 1rem;
+}
+
+.navbar-brand {
+  font-size: 1.25rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.navbar-brand i {
+  font-size: 1.3rem;
+}
+
+.navbar .btn {
+  border-radius: 8px;
+  font-weight: 500;
+  padding: 0.35rem 0.8rem;
+}
+
+/* Cards do App */
+.app-card {
+  border: none;
+  border-radius: 16px;
+  background: #fff;
+  padding: 2rem;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Títulos dentro do App */
+.app-card .card-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+/* Rodapé */
+footer {
+  background: #fff;
+  font-size: 0.9rem;
+  color: #6c757d;
+  margin-top: 2rem;
+  padding: 1rem;
+}
+
+/* ================================
+   RESPONSIVIDADE
+================================ */
 @media (max-width: 768px) {
   .card {
     margin-bottom: 1rem;

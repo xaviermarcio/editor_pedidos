@@ -2,9 +2,12 @@
 // AUTH.JS – Autenticação Firebase
 // ================================
 
+// Referência para autenticação
 const auth = firebase.auth();
 
-// Tradução de erros do Firebase para mensagens amigáveis
+// ================================
+// Tradução de erros para PT-BR
+// ================================
 function traduzirErroFirebase(code) {
   const erros = {
     "auth/email-already-in-use": "Este e-mail já está em uso.",
@@ -24,75 +27,61 @@ function traduzirErroFirebase(code) {
 async function login(email, senha) {
   try {
     const userCredential = await auth.signInWithEmailAndPassword(email, senha);
-    // Redireciona para o app
-    window.location.href = "app.html";
+    document.getElementById("loginMessage").textContent =
+      "Login realizado com sucesso!";
+    document.getElementById("loginMessage").className =
+      "text-success text-center mt-2";
+
+    // Redireciona após login
+    setTimeout(() => {
+      window.location.href = "app.html";
+    }, 1200);
+
     return userCredential.user;
   } catch (error) {
-    throw new Error(traduzirErroFirebase(error.code));
+    document.getElementById("loginMessage").textContent = traduzirErroFirebase(
+      error.code
+    );
+    document.getElementById("loginMessage").className =
+      "text-danger text-center mt-2";
   }
 }
 
+// Captura o submit do form de login
+const loginForm = document.getElementById("loginForm");
+if (loginForm) {
+  loginForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const email = document.getElementById("email").value;
+    const senha = document.getElementById("senha").value;
+    login(email, senha);
+  });
+}
+
 // ================================
-// LOGIN COM GOOGLE (via popup)
+// LOGIN COM GOOGLE (popup)
 // ================================
 async function loginWithGoogle() {
   const provider = new firebase.auth.GoogleAuthProvider();
   try {
     const result = await auth.signInWithPopup(provider);
-    if (result.user) {
-      console.log("Usuário Google logado:", result.user.email);
-      // Redireciona para o app
-      window.location.href = "app.html";
-    }
+    console.log("Usuário Google logado:", result.user.email);
+    window.location.href = "app.html";
   } catch (error) {
     alert(traduzirErroFirebase(error.code));
   }
 }
+window.loginWithGoogle = loginWithGoogle;
 
 // ================================
 // REGISTRAR NOVO USUÁRIO
 // ================================
 async function register(email, senha) {
   try {
-    const userCredential = await auth.createUserWithEmailAndPassword(email, senha);
-    return userCredential.user;
-  } catch (error) {
-    throw new Error(traduzirErroFirebase(error.code));
-  }
-}
-
-// ================================
-// RESETAR SENHA
-// ================================
-async function resetPassword(email) {
-  try {
-    await auth.sendPasswordResetEmail(email);
-    return true;
-  } catch (error) {
-    throw new Error(traduzirErroFirebase(error.code));
-  }
-}
-
-// ================================
-// LOGOUT
-// ================================
-async function logout() {
-  try {
-    await auth.signOut();
-    // Volta para a tela de login (index.html)
-    window.location.href = "index.html";
-  } catch (error) {
-    alert("Erro ao sair: " + error.message);
-  }
-}
-
-
-// ================================
-// REGISTRAR NOVO USUÁRIO
-// ================================
-async function register(email, senha) {
-  try {
-    const userCredential = await auth.createUserWithEmailAndPassword(email, senha);
+    const userCredential = await auth.createUserWithEmailAndPassword(
+      email,
+      senha
+    );
     return userCredential.user;
   } catch (error) {
     throw new Error(traduzirErroFirebase(error.code));
