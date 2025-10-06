@@ -1,7 +1,7 @@
 # =========================
-# Logs
+# 🔥 LOGS
 # =========================
-logs
+logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -10,51 +10,81 @@ firebase-debug.log*
 firebase-debug.*.log*
 
 # =========================
-# Firebase cache
+# 🔥 FIREBASE CACHE E CONFIG
 # =========================
 .firebase/
+.firebaserc
+firebase-debug.log
+firebase-debug.*.log
 
-# Firebase config (NÃO SUBIR)
+# NÃO SUBIR CONFIG SENSÍVEL
 frontend/js/firebase-config.js
 
-# Caso use dotenv para segredos
+# =========================
+# ⚙️ VARIÁVEIS DE AMBIENTE
+# =========================
 .env
+.env.local
+.env.development
+.env.production
 
 # =========================
-# Python
+# 🐍 PYTHON / FASTAPI
 # =========================
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
+*.py[cod]
+*.sqlite3
+*.db
+*.bak
+*.tmp
 backend/venv/
+backend/.env
+backend/__pycache__/
+backend/*.log
 
 # =========================
-# Node / JS
+# 📦 NODE / JAVASCRIPT
 # =========================
 node_modules/
+package-lock.json
+yarn.lock
 
 # =========================
-# Build / Coverage
+# 🧱 BUILD / COBERTURA
 # =========================
-coverage
-.nyc_output
-lib-cov
-.grunt
-bower_components
+coverage/
+.nyc_output/
+lib-cov/
+build/
+dist/
+.grunt/
+bower_components/
 .lock-wscript
-build/Release
 *.tgz
 
 # =========================
-# Outras configs locais
+# 💻 ARQUIVOS DE SISTEMA / IDE
 # =========================
-.npm
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+
+# =========================
+# 🧠 OUTRAS CONFIGS LOCAIS
+# =========================
+.npm/
 .eslintcache
 .node_repl_history
 .yarn-integrity
 
 # =========================
-# dataconnect generated files
+# ⚙️ DATACONNECT (FIREBASE)
 # =========================
-.dataconnect
+.dataconnect/
